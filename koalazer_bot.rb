@@ -100,6 +100,7 @@ bot.command :roulette_russe do |event|
   else
     event << "Clic"
     event << "Un autre volontaire ? :)"
+  end
 end
 
 bot.mention do |event|
