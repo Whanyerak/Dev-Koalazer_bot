@@ -147,9 +147,10 @@ end
 
 
 #Does it work ?
-bot.member_join(channel) do |event, username|
-    event.respond('Welcome to the server, username')
-end
+#bot.member_join(channel) do |event, username|
+#    event.respond('Welcome to the server, username')
+#end
+
 
 
 
