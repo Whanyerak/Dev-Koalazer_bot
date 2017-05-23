@@ -94,7 +94,7 @@ bot.command :roulette_russe do |event|
   sleep 1
   event << '.'
   sleep 1
-  if rand = 3
+  if score = 3
     event << '/tts PAN'
     event << '/kick ' + event.user.name
   else
