@@ -97,6 +97,7 @@ bot.command :roulette_russe do |event|
   if score == 3
     event << '/tts PAN'
     event << '/kick ' + event.user.name
+    event.user.name.kick
   else
     event << "Clic"
     event << "Un autre volontaire ? :)"
@@ -156,7 +157,7 @@ end
 
 #salty
 bot.message(contains: 'connard') do |event|
-    event.respond "Tu vas te calmer hein !."
+    event.respond "Tu vas te calmer hein !"
 end
 
 
