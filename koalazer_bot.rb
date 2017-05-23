@@ -4,7 +4,6 @@ command line:
 $ruby Discordbot.rb
 =end
 
-require 'byebug'
 require 'discordrb'
 #require 'date'
 #date = DateTime.now
