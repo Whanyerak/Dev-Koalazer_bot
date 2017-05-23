@@ -25,7 +25,7 @@ puts "This bot's invite URL is #{bot.invite_url}."
 puts 'Click on it to invite it to your server.'
 
 bot.message(content: '!help') do |event|
-    event.respond "Command List:\n!kelpyg: links you to Kelpy (6 hours)\n!nintendoswitch: links you to the Nintendo Switch homepage\n!switchlaunch: links you to a site that counts down to March 3rd. HYPE\n!ping: Pong!\n!gwff#: Golf With Friends Guide (Forest) Hole (#)\n!gwfo#: Golf With Friends Guide (Oasis) Hole (#)\n!ezsong: playlist of easy-listening music\n!sweet victory: Links you to Sweet Victory\n!botinfo: Tells you information about the bot\n!botwtrailers: Links you to a playlist with all the Breath of the Wild trailers\n!tijpics: Tijmen's Pictures\n!never use this tag: NEVER use it. Ever.\n!do a barrel roll!: Instructinos from Peppy Hare himself\n!random # #: Generates a random number between the two given numbers\n!wearenumber1: We are Number One but it's We are Number One\n!we are literally the worst: We are Number One but it's Opposite Day\n!Gabe: Gabe."
+    event.respond "Command List:\n!kelpyg: links you to Kelpy (6 hours)\n!ping: Pong!\n!ezsong: playlist of easy-listening music\n!sweet victory: Links you to Sweet Victory\n!botinfo: Tells you information about the bot\n!roulette_russe: Generates a random number between the two given numbers\n"
 end
 
 =begin
@@ -37,7 +37,7 @@ end
 
 #version
 bot.message(content: '!version') do |event|
-    event.respond 'BWMRD Bot is in version 1.1.1'
+    event.respond 'Koalazer Bot is in beta_version'
 end
 
 #kelpy g 6 hours
@@ -86,8 +86,21 @@ end
 #VMO
 #Pour roulette russe
 #random number generator
-bot.command :random do |event, min, max|
-  rand(min.to_i .. max.to_i)
+bot.command :roulette_russe do |event|
+  score = rand(1..6)
+  event << 'Le roulette tourne...'
+  event << '...'
+  sleep 1
+  event << '..'
+  sleep 1
+  event << '.'
+  sleep 1
+  if rand = 3
+    event << '/tts PAN'
+    event << '/kick ' + event.user.name
+  else
+    event << "Clic"
+    event << "Un autre volontaire ? :)"
 end
 
 bot.mention do |event|
