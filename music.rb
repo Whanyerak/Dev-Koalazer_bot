@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'rf-rest-open-uri'
 class Music
 
 	def playlist
