@@ -1,12 +1,13 @@
-=begin
-Run Instructions:
-command line:
-$ruby Discordbot.rb
-=end
+#Run Command Line: 
+# => "$ruby koalazer_bot.rb" -> to run it with a direct view on the state of the bot.
+
+#You can also run it with Command Line: 
+# => "$ruby koalazer_bot.rb > logs.txt 2>&1" -> to save the state of the process in a log file.
 
 require 'discordrb'
-#require 'date'
-#date = DateTime.now
+require_relative 'player_control.rb'
+require_relative 'music.rb'
+
 Discordrb::Channel
 # This statement creates a bot with the specified token and application ID. After this line, you can add events to the
 # created bot, and eventually run it.
@@ -17,84 +18,60 @@ Discordrb::Channel
 # you, look here: https://github.com/meew0/discordrb/wiki/Redirect-URIs-and-RPC-origins
 # After creating the bot, simply copy the token (*not* the OAuth2 secret) and the client ID and put it into the
 # respective places.
+
 bot = Discordrb::Commands::CommandBot.new token: 'MzExNTI1NzYwNjAxMDMwNjU2.DAWJWw.VVjwTsMsIrhRjpoZMaQ83DxL8DY', client_id: 311525760601030656, prefix: '!'
-# Here we output the invite URL to the console so the bot account can be invited to the channel. This only has to be
-# done once, afterwards, you can remove this part if you want
+
+# Return into the consol (or into a log file) the url to be used to invite the bot.
 puts "This bot's invite URL is #{bot.invite_url}."
-puts 'Click on it to invite it to your server.'
 
+
+# Return a help on the actions realisable by the bot.
 bot.message(content: '!help') do |event|
-    event.respond "Command List:\n!kelpyg: links you to Kelpy (6 hours)\n!ping: Pong!\n!ezsong: playlist of easy-listening music\n!sweet victory: Links you to Sweet Victory\n!botinfo: Tells you information about the bot\n!roulette_russe: Generates a random number between the two given numbers\n"
+    event.respond "Command List:\n!version: Gives you the developed version of the bot.\n!ping: Pong!\n!sweet victory: Links you to Sweet Victory\n!roulette_russe: Like a Russian Roulette you can be kick from the serveur.\n"
 end
 
+
 =begin
-        template
+       ____________
+      |            |
+      |  Template  |
+      |____________|
+
 bot.message(content: '!') do |event|
   event.respond ''
 end
+
 =end
 
-#version
+
+# Return the developed version of the bot.
 bot.message(content: '!version') do |event|
-    event.respond 'Koalazer Bot is in beta_version'
+    event.respond 'Koalazer Bot is in beta version. Use !help to know what he can do.'
 end
 
-#kelpy g 6 hours
-bot.message(content: '!kelpyg') do |event|
-  event.respond 'https://www.youtube.com/watch?v=g72A9dVV18M'
-end
 
-=begin
-        template
-bot.message(content: '!') do |event|
-  event.respond ''
-end
-=end
-
-
-#easy listening songs
-bot.message(content: '!ezsongs') do |event|
-  event.respond 'https://www.youtube.com/watch?v=dvH-nbindvk&index=1&list=PLTVjPAw118GfBbGrOva0NUDft7VmvWdUW&t=234s'
-end
-
+# A implémenter de façon à passer par YouTube.
 #sweet victory
 bot.message(content: '!sweet victory') do |event|
     event.respond 'https://www.youtube.com/watch?v=tVm7LOHNA24'
 end
 
-bot.message(content: '!botinfo') do |event|
-    event.respond "Hi, I'm BWMRD Bot. I was written by Jason Odell and Kevin Lane."
-end
 
-#links to date calculator until March 3rd
-bot.message(content: '!switchlaunch') do |event|
-  event.respond 'https://days.to/until/3-march'
-end
-
-#responds 'Pong!' to '!ping'
+# Classical 'Pong!' responded to a '!ping'
 bot.message(content: '!ping') do |event|
   event.respond 'Pong!'
 end
 
-#secret
-#konamicode
-bot.message(content: '!up up down down left right left right B A start') do |event|
-    event.respond 'Congratulations, you found a secret tag! There are still more to find. Can you find them all?'
-end
 
 #VMO
-#Pour roulette russe
-#random number generator
+# Russian roulet game : one chance on 6 to get kick from the server.
 bot.command :roulette_russe do |event|
+
   channel = event.user.voice_channel
   user = event.user
   score = rand(1..6)
   bot.kick(user, channel)
-=begin  event << 'Le roulette tourne...'
-  event << '...'
-  event << '..'
-  event << '.'
-=end
+
   if score == 3
     #event << '/tts PAN'
     #event << '/kick ' + event.user.name
@@ -103,15 +80,17 @@ bot.command :roulette_russe do |event|
     event << "Clic"
     event << "Un autre volontaire ? :)"
   end
+
 end
 
+
+# Send a private message to the user which has mentionned Koalazer in a chat.
 bot.mention do |event|
-  # The `pm` method is used to send a private message (also called a DM or direct message) to the user who sent the
-  # initial message.
   event.user.pm('You have mentioned me!')
 end
 
 
+# Return the name of the user who asked this command.
 bot.command :user do |event|
   # Commands send whatever is returned from the block to the channel. This allows for compact commands like this,
   # but you have to be aware of this so you don't accidentally return something you didn't intend to.
@@ -120,23 +99,22 @@ bot.command :user do |event|
 end
 
 
+# Connect the bot into hte voice channel of the user who called it.
 bot.command(:connect) do |event|
-  # The `voice_channel` method returns the voice channel the user is currently in, or `nil` if the user is not in a
-  # voice channel.
+
   channel = event.user.voice_channel
 
-  # Here we return from the command unless the channel is not nil (i. e. the user is in a voice channel). The `next`
-  # construct can be used to exit a command prematurely, and even send a message while we're at it.
+  # Case where the user who asked bot connection isn't in a voice channel.
   next "You're not in any voice channel!" unless channel
 
-  # The `voice_connect` method does everything necessary for the bot to connect to a voice channel. Afterwards the bot
-  # will be connected and ready to play stuff back.
+  # Case where the user who asked bot connection is in a voice channel -> connect the bot into it.
   bot.voice_connect(channel)
   "Connected to voice channel: #{channel.name}"
+
 end
 
 
-#Sympa mais à modifier pour apsser par YouTube
+# Sympa mais à modifier pour passer par YouTube
 bot.command(:play_victory) do |event|
   # `event.voice` is a helper method that gets the correct voice bot on the server the bot is currently in. Since a
   # bot may be connected to more than one voice channel (never more than one on the same server, though), this is
@@ -148,13 +126,14 @@ bot.command(:play_victory) do |event|
 end
 
 
-#Does it work ?
+# Does it work ?
 #bot.member_join(channel) do |event, username|
 #    event.respond('Welcome to the server, username')
 #end
 
 
 
+# Bot action on some chat words
 
 #salty
 bot.message(contains: 'connard') do |event|
@@ -170,6 +149,11 @@ end
 =end
 
 
-# This method call has to be put at the end of your script, it is what makes the bot actually connect to Discord. If you
-# leave it out (try it!) the script will simply stop and the bot will compulsively masturbate and/or not appear online.
+#secret
+#konamicode
+bot.message(content: '!up up down down left right left right B A start') do |event|
+    event.respond 'Congratulations, you found a secret tag! There are still more to find. Can you find them all?'
+end
+
+# Execute the bot code and connect it into the server.
 bot.run
