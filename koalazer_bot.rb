@@ -86,8 +86,10 @@ end
 #Pour roulette russe
 #random number generator
 bot.command :roulette_russe do |event|
+  channel = event.user.voice_channel
+  user = event.user
   score = rand(1..6)
-  event.bot.kick(event.user)
+  bot.kick(user, channel)
 =begin  event << 'Le roulette tourne...'
   event << '...'
   event << '..'
@@ -96,7 +98,7 @@ bot.command :roulette_russe do |event|
   if score == 3
     #event << '/tts PAN'
     #event << '/kick ' + event.user.name
-    event.bot.kick(event.user)
+    bot.kick(user, channel)
   else
     event << "Clic"
     event << "Un autre volontaire ? :)"
