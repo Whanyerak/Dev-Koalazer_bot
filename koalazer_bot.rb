@@ -64,12 +64,14 @@ bot.command :roulette_russe do |event|
   channel = event.user.voice_channel
   user = event.user
   score = rand(1..6)
-  bot.kick(user, channel)
+  #bot.kick(user, channel)
+  event.server.kick(user)
 
   if score == 3
+    event << 'Normalement t\' es mort fdp.'
     #event << '/tts PAN'
     #event << '/kick ' + event.user.name
-    bot.kick(user, channel)
+    #bot.kick(user, channel)
   else
     event << "Clic"
     event << "Un autre volontaire ? :)"
