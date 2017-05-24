@@ -4,15 +4,19 @@ class Music
 	def playlist
 		return @playlist
 	end
+
 	def current_song
 		return @current_song
 	end
+
 	def current_artist
 		return @current_artist
 	end
+
 	def playing?
 		return @playing
 	end
+
 	def success?
 		return @success
 	end
@@ -28,7 +32,7 @@ class Music
 
 	def song_setup(song, artist = "")
 		@current_song = song
-		@current_artist = artist
+	 	@current_artist = artist
 	end
 
 	def start()
@@ -68,7 +72,7 @@ class Music
 		}
 		puts "Downloading " + song + " by " + artist
 		begin
-			YoutubeDL.download link, options
+		  YoutubeDL.download link, options
 		rescue
 			@playing = false
 			@success = false

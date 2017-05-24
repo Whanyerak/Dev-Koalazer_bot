@@ -1,7 +1,7 @@
 require 'rspotify'
 require 'nokogiri'
 require 'youtube-dl.rb'
-require_relative 'music.rb'
+require_relative 'music'
 
 # Spotify API Connect
 =begin
