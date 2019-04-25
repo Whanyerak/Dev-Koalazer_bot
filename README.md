@@ -10,4 +10,8 @@ and <br>
 https://github.com/pokemaniac89/Discord-Bot-hackathon
 <br>
 <br>
-It use discordrb : https://github.com/meew0/discordrb/.
+It use discordrb : https://github.com/meew0/discordrb/.<br>
+<br>
+
+Dev in stand by.
+Wait for it :)
